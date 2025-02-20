@@ -44,7 +44,7 @@ public class ProductBasket {
         System.out.println(basketName + ":");
         for (Product eachProduct : products) {
             if (eachProduct != null) {
-                System.out.println(eachProduct.getName() + ": " + eachProduct.getPrice() + " руб.");
+                System.out.println(eachProduct);
                 total = total + eachProduct.getPrice();
             } else {
                 break;
