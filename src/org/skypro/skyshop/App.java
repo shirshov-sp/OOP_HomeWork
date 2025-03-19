@@ -6,6 +6,7 @@ import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.BestResultNotFoundException;
 import org.skypro.skyshop.search.SearchEngine;
 
 import java.util.Arrays;
@@ -96,8 +97,8 @@ public class App {
 
         Article aboutMilk = new Article("О молоке.", "Молоко полезно для ребенка!");
         Article aboutAlcohol = new Article("Про коньяк", "Алкоголь вреден беременным.");
-        Article aboutButter = new Article("Про масло", "Кашу маслом не испортишь!");
-        Article aboutBread = new Article("Хлеб", "Хлеб - всему голова!");
+        Article aboutButter = new Article("Про масло.", "Кашу маслом не испортишь!");
+        Article aboutBread = new Article("Хлеб.", "Хлеб - всему голова!");
 
         searchEngine1.addSearchable(aboutMilk);
         searchEngine1.addSearchable(aboutAlcohol);
@@ -114,6 +115,52 @@ public class App {
         System.out.println();
         System.out.println(aboutBread.getStringRepresentation());
         System.out.println(sausage.getStringRepresentation());
+
+        System.out.println();
+        System.out.println("__________________________________");
+        System.out.println("ДЗ \"ООП. Исключения\"\n");
+
+        try {
+            Product pepper = new FixPriceProduct("  ");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            Product salt = new SimpleProduct("Соль", 0);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            Product potato = new DiscountedProduct("Картофель", 80, 120);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            Product meat = new DiscountedProduct("Мясо", -10, 20);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println();
+        String search = "масло";
+        printSearchResultFor(search);
+        try {
+            System.out.println(searchEngine1.bestSearch(search));
+        } catch (BestResultNotFoundException e) {
+            System.out.println(e);
+        }
+
+        System.out.println();
+        search = "водка";
+        printSearchResultFor(search);
+        try {
+            System.out.println(searchEngine1.bestSearch(search));
+        } catch (BestResultNotFoundException e) {
+            System.out.println(e);
+        }
     }
 
     public static void printProductIsInBasket(String nameSearch, String basketName) {
@@ -122,5 +169,9 @@ public class App {
 
     public static void printProductNotInBasket(String nameSearch, String basketName) {
         System.out.println("Продукт " + nameSearch + " отсутсвует в " + basketName);
+    }
+
+    public static void printSearchResultFor(String search) {
+        System.out.println("Результат поиска для \"" + search + "\":");
     }
 }

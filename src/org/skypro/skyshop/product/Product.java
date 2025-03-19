@@ -6,6 +6,9 @@ public abstract class Product implements Searchable {
     private String name;
 
     public Product(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Ошибка! Пустое имя продукта!");
+        }
         this.name = name;
     }
 
@@ -21,12 +24,12 @@ public abstract class Product implements Searchable {
     public abstract String toString();
 
     @Override
-    public String getSearchTerm(){
+    public String getSearchTerm() {
         return name;
     }
 
     @Override
-    public String getContentType(){
+    public String getContentType() {
         return "PRODUCT";
     }
 }
