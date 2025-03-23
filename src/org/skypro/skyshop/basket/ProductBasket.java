@@ -2,13 +2,18 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class ProductBasket {
-    private Product[] products;
+    private List<Product> products;
     private String basketName;
 
     public ProductBasket(String basketName) {
-        this.products = new Product[5];
+        this.products = new LinkedList<>();
         this.basketName = basketName;
     }
 
@@ -17,14 +22,8 @@ public class ProductBasket {
     }
 
     public void addProduct(Product product) {
-        for (int i = 0; i < products.length; i++) {
-            if (products[i] == null) {
-                products[i] = product;
-                System.out.println("Продукт \"" + product.getName() + "\" успешно добавлен в " + basketName);
-                return;
-            }
-        }
-        System.out.println("Невозможно добавить продукт в " + basketName);
+        products.add(product);
+        System.out.println("Продукт \"" + product.getName() + "\" успешно добавлен в " + basketName);
     }
 
     public int sumPrices() {
@@ -75,12 +74,20 @@ public class ProductBasket {
     }
 
     public void cleanBasket() {
-        for (int i = 0; i < products.length; i++) {
-            if (products[i] != null) {
-                products[i] = null;
-            } else {
-                return;
+        products.clear();
+    }
+
+    public List<Product> deleteProductByName(String name) {
+        Iterator<Product> iterator = products.iterator();
+        List<Product> deletedProducts = new ArrayList<>();
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.getName().equalsIgnoreCase(name)) {
+                deletedProducts.add(product);
+                iterator.remove();
             }
         }
+        return deletedProducts;
     }
 }
+

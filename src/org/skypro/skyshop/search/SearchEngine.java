@@ -1,33 +1,25 @@
 package org.skypro.skyshop.search;
 
-public class SearchEngine {
-    private Searchable[] searchables;
-    private int count;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
-    public SearchEngine(int size) {
-        searchables = new Searchable[size];
-        count = 0;
+public class SearchEngine {
+    private List<Searchable> searchables;
+
+    public SearchEngine() {
+        searchables = new LinkedList<>();
     }
 
     public void addSearchable(Searchable searchable) {
-        if (count == searchables.length) {
-            System.out.println("Массив для поиска заполнен");
-            return;
-        }
-        searchables[count] = searchable;
-        count++;
+        searchables.add(searchable);
     }
 
-    public Searchable[] search(String searchText) {
-        Searchable[] searchResult = new Searchable[5];
-        int count = 0;
+    public List<Searchable> search(String searchText) {
+        List<Searchable> searchResult = new ArrayList<>();
         for (Searchable searchable : searchables) {
-            if (count == 5) {
-                break;
-            }
             if (searchable.getSearchTerm().contains(searchText)) {
-                searchResult[count] = searchable;
-                count++;
+                searchResult.add(searchable);
             }
         }
         return searchResult;
