@@ -8,10 +8,12 @@ import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.BestResultNotFoundException;
 import org.skypro.skyshop.search.SearchEngine;
+import org.skypro.skyshop.search.Searchable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class App {
     public static void main(String[] args) {
@@ -147,7 +149,7 @@ public class App {
 
         System.out.println();
         String search = "масло";
-        printSearchResultFor(search);
+        printBestSearchResultFor(search);
         try {
             System.out.println(searchEngine1.bestSearch(search));
         } catch (BestResultNotFoundException e) {
@@ -156,7 +158,7 @@ public class App {
 
         System.out.println();
         search = "водка";
-        printSearchResultFor(search);
+        printBestSearchResultFor(search);
         try {
             System.out.println(searchEngine1.bestSearch(search));
         } catch (BestResultNotFoundException e) {
@@ -170,6 +172,18 @@ public class App {
         demonstrationOfDeleteProduct(basket1, "молоко");
         demonstrationOfDeleteProduct(basket1, "хлеб");
         demonstrationOfDeleteProduct(basket1, "коньяк");
+
+        System.out.println();
+        System.out.println("__________________________________");
+        System.out.println("ДЗ \"ООП. Map\"\n");
+
+        search = "молоко";
+        printSearchResult(search, searchEngine1);
+        search = "мыло";
+        printSearchResult(search, searchEngine1);
+        search = "ле";
+        printSearchResult(search, searchEngine1);
+
     }
 
     public static void printProductIsInBasket(String nameSearch, String basketName) {
@@ -180,8 +194,8 @@ public class App {
         System.out.println("Продукт " + nameSearch + " отсутсвует в " + basketName);
     }
 
-    public static void printSearchResultFor(String search) {
-        System.out.println("Результат поиска для \"" + search + "\":");
+    public static void printBestSearchResultFor(String search) {
+        System.out.println("Результат лучшего поиска для \"" + search + "\":");
     }
 
     public static void demonstrationOfDeleteProduct(ProductBasket basket, String productToDelete) {
@@ -196,5 +210,15 @@ public class App {
         System.out.println();
         System.out.println("Содержиое корзины после удаления продукта: " + productToDelete);
         basket.printProductBasket();
+    }
+
+    public static void printSearchResult(String search, SearchEngine searchEngine) {
+        System.out.println("Результат поиска для \"" + search + "\":");
+        Map<String, Searchable> searchResult = searchEngine.search(search);
+        if (searchResult.isEmpty()) {
+            System.out.println("Ничего не найдено\n");
+        } else {
+            System.out.println(searchResult + "\n");
+        }
     }
 }
