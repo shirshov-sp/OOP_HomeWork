@@ -3,21 +3,31 @@ package org.skypro.skyshop.search;
 import java.util.*;
 
 public class SearchEngine {
-    private List<Searchable> searchables;
+    private Set<Searchable> searchables;
 
     public SearchEngine() {
-        searchables = new LinkedList<>();
+        searchables = new HashSet<>();
     }
 
     public void addSearchable(Searchable searchable) {
         searchables.add(searchable);
     }
 
-    public Map<String, Searchable> search(String searchText) {
-        Map<String, Searchable> searchResult = new TreeMap<>();
+    public Set<Searchable> search(String searchText) {
+        Set<Searchable> searchResult = new TreeSet<>(new Comparator<Searchable>() {
+            @Override
+            public int compare(Searchable o1, Searchable o2) {
+                int compareResult = Integer.compare(o1.getName().length(), o2.getName().length());
+                if (compareResult != 0) {
+                    return compareResult;
+                } else {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            }
+        });
         for (Searchable searchable : searchables) {
             if (searchable.getSearchTerm().toLowerCase().contains(searchText.toLowerCase())) {
-                searchResult.put(searchable.getName(), searchable);
+                searchResult.add(searchable);
             }
         }
         return searchResult;
