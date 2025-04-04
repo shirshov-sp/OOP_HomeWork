@@ -14,17 +14,7 @@ public class SearchEngine {
     }
 
     public Set<Searchable> search(String searchText) {
-        Set<Searchable> searchResult = new TreeSet<>(new Comparator<Searchable>() {
-            @Override
-            public int compare(Searchable o1, Searchable o2) {
-                int compareResult = Integer.compare(o1.getName().length(), o2.getName().length());
-                if (compareResult != 0) {
-                    return compareResult;
-                } else {
-                    return o1.getName().compareTo(o2.getName());
-                }
-            }
-        });
+        Set<Searchable> searchResult = new TreeSet<>(new SearchResultComparator());
         for (Searchable searchable : searchables) {
             if (searchable.getSearchTerm().toLowerCase().contains(searchText.toLowerCase())) {
                 searchResult.add(searchable);
@@ -32,6 +22,7 @@ public class SearchEngine {
         }
         return searchResult;
     }
+
 
     public Searchable bestSearch(String search) throws BestResultNotFoundException {
         Searchable bestSearchResult = null;
