@@ -12,8 +12,7 @@ import org.skypro.skyshop.search.Searchable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
 
 public class App {
     public static void main(String[] args) {
@@ -184,6 +183,14 @@ public class App {
         search = "ле";
         printSearchResult(search, searchEngine1);
 
+        System.out.println();
+        System.out.println("__________________________________");
+        System.out.println("ДЗ \"ООП. Set\"\n");
+
+        printSearchResult("молоко", searchEngine1);
+        printSearchResult("капуста", searchEngine1);
+        printSearchResult("хлеб", searchEngine1);
+        printSearchResult("ол", searchEngine1);
     }
 
     public static void printProductIsInBasket(String nameSearch, String basketName) {
@@ -214,7 +221,7 @@ public class App {
 
     public static void printSearchResult(String search, SearchEngine searchEngine) {
         System.out.println("Результат поиска для \"" + search + "\":");
-        Map<String, Searchable> searchResult = searchEngine.search(search);
+        Set<Searchable> searchResult = searchEngine.search(search);
         if (searchResult.isEmpty()) {
             System.out.println("Ничего не найдено\n");
         } else {
