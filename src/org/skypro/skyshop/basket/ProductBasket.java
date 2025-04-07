@@ -25,35 +25,39 @@ public class ProductBasket {
 
     public int sumPrices() {
         int total = 0;
-        for (List<Product> productList : products.values()) {
-            for (Product eachProduct : productList) {
-                total += eachProduct.getPrice();
-            }
-        }
+        total += products.values().stream()
+                .flatMap(List::stream)
+                .mapToInt(Product::getPrice)
+                .sum();
         return total;
     }
 
+    private long getSpecialCount() {
+        return products.values().stream()
+                .flatMap(List::stream)
+                .filter(Product::isSpecial)
+                .count();
+    }
+
+    private Map<String, List<Product>> getProducts() {
+        return products;
+    }
+
     public void printProductBasket() {
-        int total = 0;
+        int total2 = 0;
         int specialProductCount = 0;
         System.out.println(basketName + ":");
-        for (List<Product> productList : products.values()) {
-            for (Product eachProduct : productList) {
-                System.out.println(eachProduct);
-                total += eachProduct.getPrice();
-                if (eachProduct.isSpecial()) {
-                    specialProductCount++;
-                }
-            }
-        }
+        products.values().stream()
+                .flatMap(List::stream)
+                .forEach(System.out::println);
+        int total = sumPrices();
         if (total != 0) {
             System.out.println("Итого: " + total + " руб.");
-            System.out.println("Специальных товаров: " + specialProductCount);
+            System.out.println("Специальных товаров: " + getSpecialCount());
         } else {
             System.out.println("В корзине пусто.");
         }
     }
-
 
     public boolean isProductInBasket(String name) {
         return products.containsKey(name.toLowerCase());
